@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ChatBot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+     <!--Google font-->
+     
+
+      <!--Google font-->
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+
+    <style>
+      body{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          min-height: 100vh;
+          background-color:#444445;
+      }
+      .title{
+            display: flex;
+            padding: 20px;
+            justify-content: center;
+            align-items: top;
+            flex-wrap: wrap-reverse;
+            gap: 20px;
+        }
+
+
+        .chat-icon{
+            font-size: 45px;
+            color: #fff;
+            align-items: center;
+
+
+            
+        }
+
+        h1{
+            color: #f5eeee;
+            letter-spacing: 1.2px;
+            font-size: 40px;
+            align-items: center;
+            padding: 0px 30px;
+            background-color: #0652c0;
+            color: var(--light-color);
+            font-size: 1.5rem;
+            
+            
+
+        }
+
+
+      .container{
+        max-width: 500px;
+        background: #0492C2;
+        border-radius: 8px;
+        box-shadow: 0px 0px 15px 3px rgba(0,0,0,0.4);
+        font-family: sans-serif;
+        padding: 20px;
+        height: 500px;
+        width: 400px;
+        position: fixed;
+        }
+
+        .chat-header {
+              display: -moz-box;
+              align-items: center;
+              padding: 0px 30px;
+              
+              background-color: #0652c0;
+              color: var(--light-color);
+              border-radius: 8px 8px 8px 8px;
+              font-size: 1.5rem;
+            }
+
+       #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        margin-top: 60px;
+        overflow:auto;
+      }
+      #userInput {
+        flex: 9;
+        margin-left: -10px;
+        margin-right: 100px;
+        width: 106%;
+        margin-top: -3px;
+        border-radius: 8px 0px 0px 8px;
+        padding: 0 10px;
+        box-shadow: #35727d;
+        align-items: right;
+        margin-bottom: 10px;
+      }
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid black;
+        font-family: monospace;
+        font-size: 17px;
+        
+      }
+      .userText {
+        
+        color: black;
+        font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 17px;
+        text-align: right;
+        line-height: 20px;
+        margin-bottom: 10px;
+        
+
+        
+      }
+      .userText span {
+        background-color: #e699ff;
+        padding: 10px;
+        border-radius: 8px 8px 8px 8px;
+        margin-bottom: 20px;
+
+      }
+      .botText {
+        color: black;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+        margin-bottom: 10px;
+        
+      }
+      .botText span {
+        flex: 4;
+        background-color: #0652c0;
+        padding:10px 20px;
+        border-radius: 8px 8px 8px 8px;
+        align-items: top;
+        margin-bottom: 20px;
+
+      }
+      
+      .boxed {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        margin-top: 40px;
+        border: 1px solid rgb(223, 237, 223);
+        background-color: #e3e5e9;
+        border-radius: 8px;
+        overflow-y: auto; /* Enable vertical scroll when content exceeds the box height */
+        height: 300px;
+        
+
+       }
+      .box {
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid black;
+      }
+      input{
+          flex: 5;
+          height: 60px;
+          font-size: 20px;
+          font-weight: 600;
+          text-align: center;
+          border: none;
+          outline: none;
+          border-radius: 8px 8px 8px 8px;
+          padding: 0 10px;
+          box-shadow: #141718;
+          background-color: #a8a8b0;
+          
+      }
+
+      .icon{
+        font-size: 30px;
+            color: #fff;
+            margin-left: auto ;
+            margin-right: auto;
+            align-items: right;
+            
+      }
+
+    </style>      
+  </head>
+  <body>
+   
+  <div class="container">
+    <div class="chat-header ">
+      <div class="title">
+         <h1>AI CHATBOT</h1>
+           <div class="chat-icon"><i class="fa-regular fa-comments"></i></div>
+       
+      </div>
+   </div>
+      <div class="box"></div>
+        <div class="boxed">
+          <div>
+            <div id="chatbox">
+              <p class="botText">
+                <span>Hi! I'm ChatBot</span>
+              </p>
+            </div>
+          </div>
+          
+        </div>
+        <div id="userInput">
+          <input id="textInput" type="text" name="msg" placeholder="Enter message here..." />
+
+        </div>
+
+
+</div>
+
+      <script>
+        function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = '<p class="userText"><span>'  + rawText +  "</span></p>";
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = '<p class="botText"><span>' + data + "</span></p>";
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("userInput")
+              .scrollIntoView({ block: "start", behavior: "smooth" });
+          });
+        }
+        $("#textInput").keypress(function(e) {
+          if (e.which == 13) {
+            getBotResponse();
+          }
+        });
+      </script>
+    </div>
+  </body>
+</html>
